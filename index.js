@@ -11,20 +11,14 @@ form.addEventListener("submit", (e) => {
 })
 
 function getWeather(url) {
-    const request = new XMLHttpRequest();
-    request.addEventListener("readystatechange", () => {
-        if (request.readyState === 4 && request.status >= 200 && request.status < 300) {
-            const response = JSON.parse(request.responseText);
-            showWeather(response);
+    fetch(url).then(res => res.json()).then((data) => {
+            showWeather(data)
         }
-    })
-    request.open("GET", url);
-    request.send();
+    )
 }
 
 function showWeather(data) {
     const {name, main: {temp}} = data;
-
     show.innerHTML = `
         <p class="name"><span>Shahar:</span> ${data.name} shahri</p>
         <p class="degree"><span>Harorat:</span> ${data.main.temp} C</p>
